@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import os
+import time
 
 
 async def reloadAllModules(self, ctx):
@@ -11,7 +12,7 @@ async def reloadAllModules(self, ctx):
 
 
 def reloadModule(self, moduleName):
-    self.bot.reload_extension(f"modules.{moduleName.lower()}")
+    self.bot.reload_extension(f"modules.{moduleName}")
 
 
 class Admin(commands.Cog, name="Admin"):
@@ -23,7 +24,7 @@ class Admin(commands.Cog, name="Admin"):
     async def _reload(self, ctx: commands.Context, module="all"):
         if module == "all":
             await reloadAllModules(self, ctx)
-            await ctx.send("ALL Modules Successfully Reloaded")
+            await ctx.send("ALL MODULES successfully reloaded")
         else:
             try:
                 reloadModule(self, module)
@@ -42,6 +43,10 @@ class Admin(commands.Cog, name="Admin"):
         except(commands.ExtensionNotFound):
             await ctx.send(f"No such module as **{module}**", delete_after=5)
             await ctx.message.delete(delay=5)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f"{self.bot.user} has connected to Discord!")
 
 
 def setup(bot):

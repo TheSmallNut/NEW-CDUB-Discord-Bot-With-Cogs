@@ -1,8 +1,11 @@
 from discord.ext import commands
 import API.secret as secret
 import os
+from discord import Intents
 
-bot = commands.Bot(command_prefix='!')
+intents = Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 
 def loadModules():
@@ -15,4 +18,4 @@ def loadModules():
 loadModules()
 
 
-bot.run(secret.DISCORD_BOT_CODE)
+bot.run(secret.TEST_BOT)
